@@ -11,22 +11,44 @@ At the same time, you have the necessary knowledge to find and fetch the raw dat
 The scope of this task is build everything that is between raw data and BI tables.
 
 ## Assignment
-The BI teams requires 2 tables:
-* article_performance: the table should allow them to calculate the following statistics for each article (id):
-  * daily clicks
-  * cumulative sum of click throughout the days
-  * click through rate per day (clicks over displays)
-* user_performance: the table should allow them to calculate user-based statistics for each user:
-  * daily average session length
-  * daily click through rate
-  
-The event triggered when a user reads (clicks) an article is named `article_viewed`. 
-The events triggered when a user swipes (displays) an article are named  `top_news_card_viewed` or `my_news_card_viewed`, depending on which section of the app the user was using.
-You can find the article ids inside the `attributes` field, under `id`.
+The BI team in Upday requires 2 tables:
+* article_performance: aggregating simple stats on how the article has performed
+* user_performance: aggregating simple stats on how the user interacted with the app
 
-The data is available at https://s3.console.aws.amazon.com/s3/buckets/upday-data-assignment/lake/
+<p align="center">
+  <img src="https://upday-data-assignment.s3-eu-west-1.amazonaws.com/upday.jpeg" width="250" alt="Top news card">
+</p>
 
-The bucket contains raw event data from our app.
+The data is available at https://s3.console.aws.amazon.com/s3/buckets/upday-data-assignment/lake/ as tsv files
+  * Each line in the files represent a collected event, the 1st line is the header to help interpret the schema
+  * EVENT_NAME column represents the type of event collected 
+    * top_news_card_viewed -> A card from Top news section has been viewed by the user
+    * my_news_card_viewed -> A card from My news section has been viewed by the user
+    * article_viewed -> The user clicked on the card and viewed the article in the app's web viewer
+  * The Attributes column is the event payload as a JSON text
+    * id = id of the article
+    * category = category of the article
+    * url
+    * title 
+    * etc...
+
+The two tables should be created in the Postgres DB that is brought up by executing the docker-compose script in the project folder. They should look as the examples below:
+
+<u>article_performance table</u>
+
+| article_id  | date         | title           | category   | card_views | article_views |
+|-------------|--------------|-----------------|------------|------------|---------------|
+| id1         |  2020-01-01  | Happy New Year! |  Politics  |  1000      |    22         |
+
+<u>user_performance table</u>
+
+| user_id     | date         | ctr   |
+|-------------|--------------|-------|
+| id1         |  2020-01-01  |0.15   |
+
+* ctr(click through rate) = number of articles viewed / number of cards viewed
+* load the files directly from S3 instead of manually copying them locally 
+* create staging tables as necessary for any intermediate steps in the process
 
 ## Instructions
 You should make a pull request to this repository containing the solution. If you need to clarify any point of your solution, please include an explanation in the PR description.
@@ -45,8 +67,4 @@ The task will be evaluated based on:
 * Correctness of the final result
 * Readability of the code
 * Architecture of the solution
-* Data modeling
 * Tests (full coverage is not required, you should mainly test the critical parts of the code)
-
-## Bonus
-Include a picture that visualizes the CTR per article category over the 3 days. Up to you which kind of visualization to use.
