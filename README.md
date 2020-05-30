@@ -68,3 +68,9 @@ The task will be evaluated based on:
 * Readability of the code
 * Architecture of the solution
 * Tests (full coverage is not required, you should mainly test the critical parts of the code)
+
+To access the data in S3:
+* Create new AWS account: https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/
+* Access keys to programatically access S3 objects: https://docs.aws.amazon.com/powershell/latest/userguide/pstools-appendix-sign-up.html
+* Access S3 objects from python: https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html
+
