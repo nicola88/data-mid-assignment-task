@@ -74,3 +74,12 @@ To access the data in S3:
 * Access keys to programatically access S3 objects: https://docs.aws.amazon.com/powershell/latest/userguide/pstools-appendix-sign-up.html
 * Access S3 objects from python: https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html
 
+## Usage
+
+1. Add required `AWS Access Key ID` and `AWS Secret Access Key` to Dockerfile (line 7-8): the credentials are used only 
+   to list and fetch the TSV files required by the coding assignment
+2. Launch `docker-compose`
+
+## Assumptions
+
+- For each article (`article_id`), `title` and `category` correspond to the most recent values available in the dataset
