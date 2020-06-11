@@ -24,7 +24,7 @@ class DatabaseClient:
 
     def init_db(self):
         self.execute(commit=True, query="""
-        DROP TABLE public.article_performance;
+        DROP TABLE IF EXISTS public.article_performance;
         CREATE TABLE public.article_performance (
             article_id varchar NOT NULL,
             "date" timestamp NOT NULL,
@@ -34,21 +34,21 @@ class DatabaseClient:
             article_views int8 NOT NULL DEFAULT 0,
             CONSTRAINT article_performance_pk PRIMARY KEY (article_id, date)
         );
-        DROP TABLE public.stg_article;
+        DROP TABLE IF EXISTS public.stg_article;
         CREATE TABLE public.stg_article (
             article_id varchar NOT NULL,
             title varchar NULL,
             category varchar NULL,
             CONSTRAINT stg_table_pk PRIMARY KEY (article_id)
         );
-        DROP TABLE public.stg_article_performance;
+        DROP TABLE IF EXISTS public.stg_article_performance;
         CREATE TABLE public.stg_article_performance (
             article_id varchar NOT NULL,
             "date" date NOT NULL,
             card_views int8 NOT NULL DEFAULT 0,
             article_views int8 NOT NULL DEFAULT 0
         );
-        DROP TABLE public.stg_events;
+        DROP TABLE IF EXISTS public.stg_events;
         CREATE TABLE public.stg_events (
             "timestamp" timestamptz NOT NULL,
             "session_id_md5" char(32) NOT NULL,
@@ -56,13 +56,13 @@ class DatabaseClient:
             "user_id_md5" char(32) NOT NULL,
             "attributes" jsonb NOT NULL DEFAULT '{}'
         );
-        DROP TABLE public.stg_user_performance;
+        DROP TABLE IF EXISTS public.stg_user_performance;
         CREATE TABLE public.stg_user_performance (
             user_id varchar NOT NULL,
             "date" date NOT NULL,
             ctr float8 NULL
         );
-        DROP TABLE public.user_performance;
+        DROP TABLE IF EXISTS public.user_performance;
         CREATE TABLE public.user_performance (
             article_id varchar NOT NULL,
             "date" timestamp NOT NULL,
