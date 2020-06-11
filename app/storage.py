@@ -57,7 +57,6 @@ class StorageClient:
     def __init__(self, config: StorageConfig):
         self.config = config
         self.client = boto3.client('s3')
-        self.temp_dir = tempfile.TemporaryDirectory()
 
     def __check_object(self, obj: StorageObject) -> bool:
         is_size_ok = 0 < obj.size <= self.config.max_object_size
@@ -92,7 +91,6 @@ class StorageClient:
         obj_metadata = self.client.head_object(Bucket=self.config.bucket_name, Key=obj.key)
         logging.info("Fetched metadata for object %s: %s", obj, obj_metadata)
         content_type = obj_metadata['ContentType']
-        # TODO Save file in self.temp_dir directory or close before exit
         temp_file = tempfile.NamedTemporaryFile(delete=False)
         logging.info("Created temp file to store object content at %s", temp_file.name)
         self.client.download_fileobj(Bucket=self.config.bucket_name, Key=obj.key, Fileobj=temp_file)

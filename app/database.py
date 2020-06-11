@@ -6,8 +6,6 @@ import psycopg2
 
 class DatabaseClient:
 
-    # TODO Store table names as constants
-
     def __init__(self, host: str, port: int, user: str, password: str, db_name: str):
         self.connection = psycopg2.connect("host='{}' port={} user='{}' password='{}' dbname='{}'".format(
             host, port, user, password, db_name
